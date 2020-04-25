@@ -8,12 +8,17 @@ public class Menu extends JFrame implements ActionListener
 {
 
     JFrame jf;
+    JButton btn0;
     public Menu()
     {
 
         jf=new JFrame();
         jf.setLayout(null);
-        
+
+        btn0 = new JButton("Add New Room Type");
+        btn0.setBounds(150,390,110,35);
+        jf.add(b0);
+
 
         jf.setTitle("Menu Page");
         jf.setLocation(20,20);
