@@ -17,7 +17,7 @@ public class Menu extends JFrame implements ActionListener
 
         btn0 = new JButton("Add New Room Type");
         btn0.setBounds(150,390,110,35);
-        jf.add(b0);
+        jf.add(btn0);
 
 
         jf.setTitle("Menu Page");
