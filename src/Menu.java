@@ -16,11 +16,11 @@ public class Menu extends JFrame implements ActionListener
         jf.setLayout(null);
 
         btn0 = new JButton("Add New Room Type");
-        btn0.setBounds(150,390,110,35);
+        btn0.setBounds(120,390,180,35);
         jf.add(btn0);
 
-        btn1 = new JButton("Add new room");
-        btn1.setBounds(200,390,110,35);
+        btn1 = new JButton("Add New Room");
+        btn1.setBounds(310,390,180,35);
         jf.add(btn1);
 
 
