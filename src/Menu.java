@@ -17,18 +17,22 @@ public class Menu extends JFrame implements ActionListener
 
         btn0 = new JButton("Add New Room Type");
         btn0.setBounds(50,390,160,35);
+        btn0.addActionListener(this);
         jf.add(btn0);
 
         btn1 = new JButton("Add New Room");
         btn1.setBounds(220,390,160,35);
+        btn1.addActionListener(this);
         jf.add(btn1);
 
         btn2 = new JButton("Manage Room Type");
         btn2.setBounds(480,390,160,35);
+        btn2.addActionListener(this);
         jf.add(btn2);
 
         btn3 = new JButton("Manage rooms");
         btn3.setBounds(650,390,160,35);
+        btn3.addActionListener(this);
         jf.add(btn3);
 
 
