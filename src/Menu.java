@@ -8,7 +8,7 @@ public class Menu extends JFrame implements ActionListener
 {
 
     JFrame jf;
-    JButton btn0,btn1;
+    JButton btn0,btn1,btn2;
     public Menu()
     {
 
@@ -22,6 +22,10 @@ public class Menu extends JFrame implements ActionListener
         btn1 = new JButton("Add New Room");
         btn1.setBounds(310,390,180,35);
         jf.add(btn1);
+
+        btn2 = new JButton("Manage Room Type");
+        btn2.setBounds(500,390,160,35);
+        jf.add(btn2);
 
 
         jf.setTitle("Menu Page");
