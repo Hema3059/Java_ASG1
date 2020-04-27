@@ -51,6 +51,10 @@ public class Menu extends JFrame implements ActionListener
         {
             new AddRoom();
         }
+        if(e.getSource()==btn2)
+        {
+            new MangeRoomtype();
+        }
 
     }
 
