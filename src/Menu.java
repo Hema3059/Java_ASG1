@@ -20,7 +20,7 @@ public class Menu extends JFrame implements ActionListener
         jf.add(btn0);
 
         btn1 = new JButton("Add New Room");
-        btn1.setBounds(220,390,180,35);
+        btn1.setBounds(220,390,160,35);
         jf.add(btn1);
 
         btn2 = new JButton("Manage Room Type");
@@ -42,7 +42,11 @@ public class Menu extends JFrame implements ActionListener
         jf.setVisible(true);
 
     }
-    public void actionPerformed(ActionEvent actionEvent) {
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==btn0)
+        {
+            new AddRoomType();
+        }
 
     }
 
