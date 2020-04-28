@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class AddRoomType extends JFrame implements ActionListener
 {
@@ -9,6 +12,9 @@ public class AddRoomType extends JFrame implements ActionListener
     JLabel lbl1;
     JTextField txt1;
     JButton btn1;
+    Connection con;
+    DBS db = null;
+    PreparedStatement pst;
     AddRoomType()
     {
         jf=new JFrame();
@@ -39,7 +45,16 @@ public class AddRoomType extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent ae) {
         if(ae.getSource()==btn1)
         {
-
+            try {
+                con = db.getConnection();
+                System.out.println("Connected to database.");
+                pst = con.prepareStatement("insert into typemaster (roomtype)values(?)");
+                pst.setString(1, txt1.getText());
+                pst.executeUpdate();
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     public static void main(String args[])
