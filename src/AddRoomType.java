@@ -36,8 +36,11 @@ public class AddRoomType extends JFrame implements ActionListener
         jf.setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent ae) {
+        if(ae.getSource()==btn1)
+        {
 
+        }
     }
     public static void main(String args[])
     {
