@@ -2,9 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class AddRoom extends JFrame implements ActionListener
 {
@@ -15,6 +13,7 @@ public class AddRoom extends JFrame implements ActionListener
     DBS db = null;
     Connection con;
     JButton btn1;
+    PreparedStatement pst;
     AddRoom()
     {
         jf = new JFrame();
@@ -97,7 +96,24 @@ public class AddRoom extends JFrame implements ActionListener
         jf.setVisible(true);
     }
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btn1) {
 
+            try {
+                con = db.getConnection();
+                System.out.println("Connected to database.");
+                pst = con.prepareStatement("insert into room_manager (rtitle,room_size,type,availability,adate)values(?,?,?,?,?)");
+                pst.setString(1, txt1.getText());
+                pst.setString(2, txt2.getText());
+                pst.setString(3, cmb.getSelectedItem().toString());
+                pst.setString(4, txt3.getText());
+                pst.setString(5, txt4.getText());
+                pst.executeUpdate();
+                con.close();
+            } catch (SQLException se) {
+                System.out.println(se);
+                JOptionPane.showMessageDialog(null, "SQL Error:" + se);
+            }
+        }
     }
     public static void main(String args[])
     {
