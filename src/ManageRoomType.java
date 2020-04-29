@@ -8,6 +8,7 @@ public class ManageRoomType extends JFrame implements ActionListener
     JFrame jf;
     JLabel lbl1,lbl2;
     JTextField txt1,txt2;
+    JButton btn1,btn2;
     ManageRoomType()
     {
         jf = new JFrame();
@@ -30,6 +31,15 @@ public class ManageRoomType extends JFrame implements ActionListener
         txt2.setBounds(320,160,200,25);
         txt2.setToolTipText("Enter Room Type Name");
         jf.add(txt2);
+
+        btn1 = new JButton("View");
+        btn1.setBounds(200,230,110,35);
+        jf.add(btn1);
+
+        btn2 = new JButton("Delete");
+        btn2.setBounds(350,230,110,35);
+        jf.add(btn2);
+
 
         jf.setTitle("Room type management page");
         jf.setLocation(20,20);
