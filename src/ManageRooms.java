@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 public class ManageRooms extends JFrame implements ActionListener
 {
     JFrame jf;
-    JLabel lbl1,lbl2,lbl3,lbl4;
-    JTextField txt1,txt2,txt3,txt4;
+    JLabel lbl1,lbl2,lbl3,lbl4,lbl5;
+    JTextField txt1,txt2,txt3,txt4,txt5;
     ManageRooms(){
         jf = new JFrame();
         jf.setLayout(null);
@@ -47,6 +47,15 @@ public class ManageRooms extends JFrame implements ActionListener
         txt4.setBounds(320,240,250,25);
         txt4.setToolTipText("Availbility");
         jf.add(txt4);
+
+        lbl5 = new JLabel("Date*");
+        lbl5.setBounds(150,280,170,25);
+        jf.add(lbl5);
+
+        txt5=new JTextField(20);
+        txt5.setBounds(320,280,250,25);
+        txt5.setToolTipText("Date");
+        jf.add(txt5);
 
         jf.setTitle("Room Management Page");
         jf.setLocation(20,20);
