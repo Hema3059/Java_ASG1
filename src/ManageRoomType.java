@@ -3,6 +3,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class ManageRoomType extends JFrame implements ActionListener
 {
@@ -13,6 +14,11 @@ public class ManageRoomType extends JFrame implements ActionListener
     DefaultTableModel model = new DefaultTableModel();
     JTable tabGrid = new JTable(model);
     JScrollPane scrlPane = new JScrollPane(tabGrid);
+    Connection con;
+    DBS db =null;
+    PreparedStatement pst;
+    ResultSet rst;
+    Statement stmt;
     ManageRoomType()
     {
         jf = new JFrame();
@@ -60,6 +66,25 @@ public class ManageRoomType extends JFrame implements ActionListener
         jf.setVisible(true);
     }
     public void actionPerformed(ActionEvent e) {
+        if (model.getRowCount() > 0) {
+            for (int i = model.getRowCount() - 1; i > -1; i--) {
+                model.removeRow(i);
+            }
+        }
+        int r = 0;
+        try {
+            con = db.getConnection();
+            System.out.println("Connected to database.");
+            stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rst = stmt.executeQuery("SELECT * from typemaster");
+            while (rst.next()) {
+                model.insertRow(r++, new Object[]{rst.getString(1), rst.getString(2)});
+            }
+            con.close();
+        } catch (SQLException se) {
+            System.out.println(se);
+            JOptionPane.showMessageDialog(null, "SQL Error" + se);
+        }
 
     }
     public static void main(String args[])
