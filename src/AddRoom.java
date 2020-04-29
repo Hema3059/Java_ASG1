@@ -2,12 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class AddRoom extends JFrame implements ActionListener
 {
     JFrame jf;
-    JLabel lbl1,lbl2,lbl3,lbl4;
+    JLabel lbl1,lbl2,lbl3,lbl4,lbl5;
     JTextField txt1,txt2,txt3,txt4;
+    JComboBox cmb;
+    DB db = null;
+    Connection con;
     AddRoom()
     {
         jf = new JFrame();
@@ -49,6 +55,31 @@ public class AddRoom extends JFrame implements ActionListener
         txt4.setToolTipText("Date");
         jf.add(txt4);
 
+        lbl5 = new JLabel("Type*");
+        //l3.setFont(f);
+        lbl5.setBounds(150,360,170,25);
+        jf.add(lbl5);
+
+        cmb=new JComboBox();
+        cmb.setBounds(320,360,250,25);
+        cmb.setToolTipText("Enter Type");
+        cmb.addItem("select");
+        try {
+            con=db.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("Select roomtype from typemaster");
+            while (rs.next()) {
+                String mrd = rs.getString("roomtype");
+                cmb.addItem(mrd);
+            }
+
+            rs.close();
+            con.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
         jf.setTitle("Add New Room");
         jf.setLocation(20,20);
         jf.setResizable(false);
