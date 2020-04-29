@@ -85,7 +85,21 @@ public class ManageRoomType extends JFrame implements ActionListener
             System.out.println(se);
             JOptionPane.showMessageDialog(null, "SQL Error" + se);
         }
-
+        try {
+            con = db.getConnection();
+            System.out.println("Connected to database.");
+            pst=con.prepareStatement("delete from typemaster where id='"+txt1.getText()+"' or roomtype='"+txt2.getText()+"'");
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Record is deleted.");
+            txt1.setText("");
+            txt2.setText("");
+            con.close();
+        }
+        catch(SQLException se)
+        {
+            System.out.println(se);
+            JOptionPane.showMessageDialog(null,"SQL Error:"+se);
+        }
     }
     public static void main(String args[])
     {
