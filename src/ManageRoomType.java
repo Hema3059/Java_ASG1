@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +10,9 @@ public class ManageRoomType extends JFrame implements ActionListener
     JLabel lbl1,lbl2;
     JTextField txt1,txt2;
     JButton btn1,btn2;
+    DefaultTableModel model = new DefaultTableModel();
+    JTable tabGrid = new JTable(model);
+    JScrollPane scrlPane = new JScrollPane(tabGrid);
     ManageRoomType()
     {
         jf = new JFrame();
@@ -40,6 +44,12 @@ public class ManageRoomType extends JFrame implements ActionListener
         btn2.setBounds(350,230,110,35);
         jf.add(btn2);
 
+        scrlPane.setBounds(80,380,600,300);
+        jf.add(scrlPane);
+        tabGrid.setFont(new Font ("Times New Roman",0,15));
+
+        model.addColumn("Room_Type_ID");
+        model.addColumn("Room_Type_NAME");
 
         jf.setTitle("Room type management page");
         jf.setLocation(20,20);
