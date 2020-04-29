@@ -14,6 +14,7 @@ public class AddRoom extends JFrame implements ActionListener
     JComboBox cmb;
     DBS db = null;
     Connection con;
+    JButton btn1;
     AddRoom()
     {
         jf = new JFrame();
@@ -80,10 +81,17 @@ public class AddRoom extends JFrame implements ActionListener
         {
             e.printStackTrace();
         }
+
+        btn1 = new JButton("Save");
+        btn1.setBounds(150,390,110,35);
+        btn1.setToolTipText("click to save room details");
+        jf.add(btn1);
+        btn1.addActionListener(this);
+
         jf.setTitle("Add New Room");
         jf.setLocation(20,20);
         jf.setResizable(false);
-        jf.getContentPane().setBackground(Color.white);
+        jf.getContentPane().setBackground(Color.WHITE);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         jf.setBounds(0,0,screenSize.width, screenSize.height-50);
         jf.setVisible(true);
