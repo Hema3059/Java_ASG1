@@ -12,7 +12,7 @@ public class AddRoom extends JFrame implements ActionListener
     JLabel lbl1,lbl2,lbl3,lbl4,lbl5;
     JTextField txt1,txt2,txt3,txt4;
     JComboBox cmb;
-    DB db = null;
+    DBS db = null;
     Connection con;
     AddRoom()
     {
