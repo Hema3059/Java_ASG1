@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 public class AddRoom extends JFrame implements ActionListener
 {
     JFrame jf;
-    JLabel lbl1,lbl2;
-    JTextField txt1,txt2;
+    JLabel lbl1,lbl2,lbl3;
+    JTextField txt1,txt2,txt3;
     AddRoom()
     {
         jf = new JFrame();
@@ -30,6 +30,15 @@ public class AddRoom extends JFrame implements ActionListener
         txt2.setBounds(320,200,250,25);
         txt2.setToolTipText("Enter Seating Capacity");
         jf.add(txt2);
+
+        lbl3 = new JLabel("Room Status*");
+        lbl3.setBounds(150,240,170,25);
+        jf.add(lbl3);
+
+        txt3=new JTextField(20);
+        txt3.setBounds(320,240,250,25);
+        txt3.setToolTipText("Availbility");
+        jf.add(txt3);
 
         jf.setTitle("Add New Room");
         jf.setLocation(20,20);
