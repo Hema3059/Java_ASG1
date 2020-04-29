@@ -1,7 +1,12 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ManageRooms extends JFrame implements ActionListener
 {
@@ -9,6 +14,13 @@ public class ManageRooms extends JFrame implements ActionListener
     JLabel lbl1,lbl2,lbl3,lbl4,lbl5;
     JTextField txt1,txt2,txt3,txt4,txt5;
     JButton btn1,btn2;
+    DefaultTableModel model = new DefaultTableModel();
+    JTable tabGrid = new JTable(model);
+    JScrollPane scrlPane = new JScrollPane(tabGrid);
+    DBS db = null;
+    Connection con;
+    Statement stm;
+    ResultSet rst;
     ManageRooms(){
         jf = new JFrame();
         jf.setLayout(null);
@@ -78,9 +90,33 @@ public class ManageRooms extends JFrame implements ActionListener
         jf.setBounds(0,0,screenSize.width, screenSize.height-50);
         jf.setVisible(true);
     }
-    public void actionPerformed(ActionEvent e) {
-
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == btn1) {
+            if (model.getRowCount() > 0) {
+                for (int i = model.getRowCount() - 1; i > -1; i--) {
+                    model.removeRow(i);
+                }
+            }
+            int r = 0;
+            try {
+                con = db.getConnection();
+                System.out.println("Connected to database.");
+                stm = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                rst = stm.executeQuery("SELECT * from room_manager");
+                while (rst.next()) {
+                    model.insertRow(r++, new Object[]{rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), rst.getString(6), rst.getString(7)});
+                }
+                con.close();
+            } catch (SQLException se) {
+                System.out.println(se);
+                JOptionPane.showMessageDialog(null, "SQL Error" + se);
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Error:" + e);
+            }
+        }
     }
+
     public static void main(String args[])
     {
         new ManageRooms();
