@@ -11,11 +11,12 @@ import java.sql.Statement;
 public class ManageRooms extends JFrame implements ActionListener
 {
     JFrame jf;
-    JLabel lbl1,lbl2,lbl3,lbl4,lbl5;
+    JLabel lbl1,lbl2,lbl3,lbl4,lbl5,lbl6;
     JTextField txt1,txt2,txt3,txt4,txt5;
     JButton btn1,btn2;
     DefaultTableModel model = new DefaultTableModel();
     JTable tabGrid = new JTable(model);
+    JComboBox cmb;
     JScrollPane scrlPane = new JScrollPane(tabGrid);
     DBS db = null;
     Connection con;
@@ -70,14 +71,41 @@ public class ManageRooms extends JFrame implements ActionListener
         txt5.setToolTipText("Date");
         jf.add(txt5);
 
-        btn1 = new JButton("All");
-        btn1.setBounds(300,370,110,35);
+        lbl6 = new JLabel("Type*");
+        lbl6.setBounds(150,320,170,25);
+        jf.add(lbl6);
+        db = new DBS();
+        cmb=new JComboBox();
+        cmb.setBounds(320,320,250,25);
+        cmb.setToolTipText("Enter Type");
+        cmb.addItem("select");
+        try {
+            con=db.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("Select roomtype from typemaster");
+            while (rs.next()) {
+                String mrd = rs.getString("roomtype");
+                cmb.addItem(mrd);
+            }
+            rs.close();
+
+            con.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        jf.add(cmb);
+
+        btn1 = new JButton("View");
+        btn1.setBounds(280,380,110,35);
         btn1.setToolTipText("click to view all room details");
         btn1.addActionListener(this);
         jf.add(btn1);
 
         btn2 = new JButton("Delete");
-        btn2.setBounds(450,370,110,35);
+        btn2.setBounds(450,380,110,35);
         btn2.setToolTipText("click to delete room details");
         btn2.addActionListener(this);
         jf.add(btn2);
@@ -115,7 +143,27 @@ public class ManageRooms extends JFrame implements ActionListener
                 JOptionPane.showMessageDialog(null, "Error:" + e);
             }
         }
+        else if(ae.getSource()==btn2) {
+            try {
+                con = db.getConnection();
+                System.out.println("Connected to database.");
+                String str1 = "delete from room_manager where room_id=" + txt1.getText() + " or rtitle='" + txt2.getText() + "' ";
+                stm.executeUpdate(str1);
+                JOptionPane.showMessageDialog(null, "Record is deleted");
+                txt1.setText("");
+                txt2.setText("");
+                txt3.setText("");
+                txt4.setText("");
+                txt5.setText("");
+                cmb.setSelectedItem("select");
+                con.close();
+            } catch (SQLException se) {
+                System.out.println(se);
+                JOptionPane.showMessageDialog(null, "SQL Error:" + se);
+            }
+        }
     }
+
 
     public static void main(String args[])
     {
