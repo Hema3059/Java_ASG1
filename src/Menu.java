@@ -7,7 +7,7 @@ public class Menu extends JFrame implements ActionListener
 {
 
     JFrame jf;
-    JButton btn0,btn1,btn2,btn3;
+    JButton btn0,btn1,btn2,btn3,btn4,btn5;
     public Menu()
     {
 
@@ -33,6 +33,16 @@ public class Menu extends JFrame implements ActionListener
         btn3.setBounds(650,390,160,35);
         btn3.addActionListener(this);
         jf.add(btn3);
+
+        btn4 = new JButton("Add clerks");
+        btn4.setBounds(50,200,160,35);
+        btn4.addActionListener(this);
+        jf.add(btn4);
+
+        btn5 = new JButton("Manage clerks");
+        btn5.setBounds(220,200,160,35);
+        btn5.addActionListener(this);
+        jf.add(btn5);
 
 
 
@@ -62,7 +72,14 @@ public class Menu extends JFrame implements ActionListener
         {
             new ManageRooms();
         }
-
+        if(e.getSource()==btn4)
+        {
+            new AddClerks();
+        }
+        if(e.getSource()==btn5)
+        {
+            new ManageClerks();
+        }
     }
 
     public static void main(String args[]){
