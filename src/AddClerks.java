@@ -6,8 +6,9 @@ import java.awt.event.ActionListener;
 public class AddClerks extends JFrame implements ActionListener
 {
     JFrame jf;
-    JLabel l1,l2,l3;
+    JLabel l1,l2,l3,l4;
     JTextField t2,t3;
+    JComboBox cmb1;
     AddClerks(){
         jf = new JFrame();
         jf.setLayout(null);
@@ -35,6 +36,16 @@ public class AddClerks extends JFrame implements ActionListener
         t3.setToolTipText("Enter Password");
         jf.add(t3);
 
+        l4 = new JLabel("Select Role*");
+        l4.setBounds(150,240,170,25);
+        jf.add(l4);
+
+        cmb1=new JComboBox();
+        cmb1.setBounds(320,240,250,25);
+        cmb1.setToolTipText("Select Type");
+        cmb1.addItem("select");
+        cmb1.addItem("clerk");
+        jf.add(cmb1);
 
         jf.setTitle("Add New clerk");
         jf.setLocation(20,20);
