@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class AddClerks extends JFrame implements ActionListener
@@ -14,6 +15,7 @@ public class AddClerks extends JFrame implements ActionListener
     JComboBox cmb1;
     DBS db = null;
     Connection con;
+    PreparedStatement pst;
     AddClerks(){
         jf = new JFrame();
         jf.setLayout(null);
@@ -81,6 +83,10 @@ public class AddClerks extends JFrame implements ActionListener
                 {
                     con=db.getConnection();
                     System.out.println("Connected to database.");
+                    pst=con.prepareStatement("insert into user_manager (username,password,role,email) values(?,?,?,?)");
+                    pst.setString(1,t2.getText());
+                    pst.setString(2,t3.getText());
+                    pst.setString(3,cmb1.getSelectedItem().toString());
                     con.close();
                 }
                 catch(SQLException se)
