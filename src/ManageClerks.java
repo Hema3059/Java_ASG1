@@ -8,13 +8,14 @@ public class ManageClerks extends JFrame implements ActionListener
     JFrame jf;
     JLabel l1,l2,l3,l4;
     JTextField t2,t3;
+    JButton b0,b1;
     JComboBox cmb1;
     ManageClerks()
     {
         jf = new JFrame();
         jf.setLayout(null);
 
-        l1=new JLabel("Update Clerks");
+        l1=new JLabel("Add New Clerk");
         l1.setFont(new Font("Times New Roman",Font.BOLD,25));
         l1.setBounds(250,50,300,40);
         l1.setForeground(Color.blue);
@@ -47,6 +48,18 @@ public class ManageClerks extends JFrame implements ActionListener
         cmb1.addItem("select");
         cmb1.addItem("clerk");
         jf.add(cmb1);
+
+        b0 = new JButton("View");
+        b0.setBounds(600,350,110,35);
+        b0.setToolTipText("click to view all User details");
+        jf.add(b0);
+        b0.addActionListener(this);
+
+        b1 = new JButton("Delete");
+        b1.setBounds(750,350,110,35);
+        b1.setToolTipText("click to Delete User details");
+        jf.add(b1);
+        b1.addActionListener(this);
 
         jf.setTitle("Manage clerks");
         jf.setLocation(20,20);
