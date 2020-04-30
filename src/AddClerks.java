@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class AddClerks extends JFrame implements ActionListener
 {
@@ -10,6 +12,8 @@ public class AddClerks extends JFrame implements ActionListener
     JTextField t2,t3;
     JButton b0;
     JComboBox cmb1;
+    DBS db = null;
+    Connection con;
     AddClerks(){
         jf = new JFrame();
         jf.setLayout(null);
@@ -54,7 +58,6 @@ public class AddClerks extends JFrame implements ActionListener
         jf.add(b0);
         b0.addActionListener(this);
 
-
         jf.setTitle("Add New clerk");
         jf.setLocation(20,20);
         jf.setResizable(false);
@@ -65,7 +68,28 @@ public class AddClerks extends JFrame implements ActionListener
     }
 
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==b0)
+        {
 
+            if(((t2.getText()).equals(""))||((t3.getText()).equals("")))
+            {
+                JOptionPane.showMessageDialog(this,"* Detail are Missing !","Warning!!!",JOptionPane.WARNING_MESSAGE);
+            }
+            else
+            {
+                try
+                {
+                    con=db.getConnection();
+                    System.out.println("Connected to database.");
+                    con.close();
+                }
+                catch(SQLException se)
+                {
+                    System.out.println(se);
+                    JOptionPane.showMessageDialog(null,"SQL Error:"+se);
+                }
+            }
+        }
     }
     public static void main(String args[]){
         new AddClerks();
