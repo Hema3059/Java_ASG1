@@ -3,14 +3,31 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class AddClerks extends JFrame implements ActionListener
 {
     JFrame jf;
+    JLabel l1,l2;
+    JTextField t2;
     AddClerks(){
         jf = new JFrame();
         jf.setLayout(null);
 
-        jf.setTitle("Add New User");
+        l1=new JLabel("Add New Clerk");
+        l1.setFont(new Font("Times New Roman",Font.BOLD,25));
+        l1.setBounds(250,50,300,40);
+        l1.setForeground(Color.blue);
+        jf.add(l1);
+
+        l2 = new JLabel("User Name*");
+        l2.setBounds(150,160,170,25);
+        jf.add(l2);
+
+        t2=new JTextField(20);
+        t2.setBounds(320,160,250,25);t2.setToolTipText("Enter user name");
+        jf.add(t2);
+
+        jf.setTitle("Add New clerk");
         jf.setLocation(20,20);
         jf.setResizable(false);
         jf.getContentPane().setBackground(Color.cyan);
@@ -26,3 +43,4 @@ public class AddClerks extends JFrame implements ActionListener
         new AddClerks();
     }
 }
+
