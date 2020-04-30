@@ -8,6 +8,7 @@ public class AddClerks extends JFrame implements ActionListener
     JFrame jf;
     JLabel l1,l2,l3,l4;
     JTextField t2,t3;
+    JButton b0;
     JComboBox cmb1;
     AddClerks(){
         jf = new JFrame();
@@ -46,6 +47,13 @@ public class AddClerks extends JFrame implements ActionListener
         cmb1.addItem("select");
         cmb1.addItem("clerk");
         jf.add(cmb1);
+
+        b0 = new JButton("Save");
+        b0.setBounds(150,350,110,35);
+        b0.setToolTipText("click to save User details");
+        jf.add(b0);
+        b0.addActionListener(this);
+
 
         jf.setTitle("Add New clerk");
         jf.setLocation(20,20);
