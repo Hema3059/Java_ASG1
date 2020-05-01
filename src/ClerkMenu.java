@@ -32,6 +32,14 @@ public class ClerkMenu extends JFrame implements ActionListener
     }
 
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==btn0)
+        {
+            new Booking();
+        }
+        else if(e.getSource()==btn1)
+        {
+            new ManageBooking();
+        }
 
     }
     public static void main(String args[])
