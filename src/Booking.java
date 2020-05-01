@@ -16,6 +16,7 @@ public class Booking extends JFrame implements ActionListener
     JLabel l1,l2,l3,l4,l5;
     JComboBox cmb1;
     JTextField t2,t3;
+    JButton btn1;
     JDatePickerImpl datePicker;
     SqlDateModel datemodel;
     DBS db = null;
@@ -89,6 +90,13 @@ public class Booking extends JFrame implements ActionListener
         {
             e.printStackTrace();
         }
+
+        btn1 = new JButton("Save");
+        btn1.setBounds(200,450,110,35);
+        btn1.setToolTipText("click to save Booking details");
+        jf.add(btn1);
+        btn1.addActionListener(this);
+
         jf.setTitle("BOOKING");
         jf.setLocation(20,20);
         jf.setResizable(false);
