@@ -1,7 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Properties;
+
+import com.mysql.jdbc.Connection;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
@@ -9,13 +13,18 @@ import org.jdatepicker.impl.SqlDateModel;
 public class Booking extends JFrame implements ActionListener
 {
     JFrame jf;
-    JLabel l1,l2,l3,l4;
+    JLabel l1,l2,l3,l4,l5;
+    JComboBox cmb1;
     JTextField t2,t3;
     JDatePickerImpl datePicker;
     SqlDateModel datemodel;
+    DBS db = null;
+    Connection con;
+
     Booking(){
         jf = new JFrame();
         jf.setLayout(null);
+        db = new DBS();
 
         l1=new JLabel("New Booking");
         l1.setFont(new Font("Times New Roman",Font.BOLD,25));
@@ -56,6 +65,30 @@ public class Booking extends JFrame implements ActionListener
         datePicker.setBounds(320,240,250,25);datePicker.setToolTipText("Date");
         jf.add(datePicker);
 
+        l5 = new JLabel("Room*");
+        l5.setBounds(150,320,170,25);
+        jf.add(l5);
+
+        cmb1=new JComboBox();
+        cmb1.setBounds(320,400,250,25);
+        cmb1.setToolTipText("Select Room");
+        cmb1.addItem("Select Room");
+        try {
+            con= (Connection) db.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("Select ** from ** where availability=1");
+            while (rs.next()) {
+                String mrd = rs.getString("**");
+                cmb1.addItem(mrd);
+            }
+            rs.close();
+
+            con.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
         jf.setTitle("BOOKING");
         jf.setLocation(20,20);
         jf.setResizable(false);
