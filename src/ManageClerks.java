@@ -1,7 +1,9 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class ManageClerks extends JFrame implements ActionListener
 {
@@ -10,6 +12,10 @@ public class ManageClerks extends JFrame implements ActionListener
     JTextField t2,t3;
     JButton b0,b1;
     JComboBox cmb1;
+    DBS db = null;
+    Connection con;
+    DefaultTableModel model = new DefaultTableModel();
+    ResultSet rs;
     ManageClerks()
     {
         jf = new JFrame();
@@ -70,8 +76,28 @@ public class ManageClerks extends JFrame implements ActionListener
         jf.setVisible(true);
 
     }
-    public void actionPerformed(ActionEvent e) {
-
+    public void actionPerformed(ActionEvent ae) {
+        if(ae.getSource()==b0) {//list
+            if (model.getRowCount() > 0) {
+                for (int i = model.getRowCount() - 1; i > -1; i--) {
+                    model.removeRow(i);
+                }
+            }
+            int r = 0;
+            try {
+                con = db.getConnection();
+                System.out.println("Connected to database.");
+                Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                rs = stmt.executeQuery("SELECT * from user_manager");
+                while (rs.next()) {
+                    model.insertRow(r++, new Object[]{rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)});
+                }
+                con.close();
+            } catch (SQLException se) {
+                System.out.println(se);
+                JOptionPane.showMessageDialog(null, "SQL Error" + se);
+            }
+        }
     }
     public static void main(String args[])
     {
