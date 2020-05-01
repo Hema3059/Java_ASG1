@@ -6,9 +6,21 @@ import java.awt.event.ActionListener;
 public class ClerkMenu extends JFrame implements ActionListener
 {
     JFrame jf;
+    JButton btn0,btn1;
     ClerkMenu(){
         jf = new JFrame();
         jf.setLayout(null);
+
+        btn0 = new JButton("New Booking");
+        btn0.setBounds(50,200,160,35);
+        btn0.addActionListener(this);
+        jf.add(btn0);
+
+        btn1 = new JButton("Manage Booking");
+        btn1.setBounds(220,200,160,35);
+        btn1.addActionListener(this);
+        jf.add(btn1);
+
 
         jf.setTitle("Clerk Menu Page");
         jf.setLocation(20,20);
