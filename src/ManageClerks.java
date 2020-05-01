@@ -8,8 +8,8 @@ import java.sql.*;
 public class ManageClerks extends JFrame implements ActionListener
 {
     JFrame jf;
-    JLabel l1,l2,l3,l4;
-    JTextField t2,t3;
+    JLabel l1,l2,l3,l4,l5;
+    JTextField t1,t2,t3;
     JButton b0,b1;
     JComboBox cmb1;
     DBS db = null;
@@ -21,11 +21,20 @@ public class ManageClerks extends JFrame implements ActionListener
         jf = new JFrame();
         jf.setLayout(null);
 
-        l1=new JLabel("Add New Clerk");
-        l1.setFont(new Font("Times New Roman",Font.BOLD,25));
-        l1.setBounds(250,50,300,40);
-        l1.setForeground(Color.blue);
+        l5=new JLabel("Add New Clerk");
+        l5.setFont(new Font("Times New Roman",Font.BOLD,25));
+        l5.setBounds(250,50,300,40);
+        l5.setForeground(Color.blue);
+        jf.add(l5);
+
+        l1= new JLabel("User id *");
+        //l1.setFont(f);
+        l1.setBounds(150,120,130,25);
         jf.add(l1);
+
+        t1=new JTextField(20);
+        t1.setBounds(320,120,250,25);t1.setToolTipText("Enter User id");
+        jf.add(t1);
 
         l2 = new JLabel("User Name*");
         l2.setBounds(150,160,170,25);
@@ -76,7 +85,8 @@ public class ManageClerks extends JFrame implements ActionListener
         jf.setVisible(true);
 
     }
-    public void actionPerformed(ActionEvent ae) {
+    public void actionPerformed(ActionEvent ae)
+    {
         if(ae.getSource()==b0) {//list
             if (model.getRowCount() > 0) {
                 for (int i = model.getRowCount() - 1; i > -1; i--) {
@@ -96,6 +106,30 @@ public class ManageClerks extends JFrame implements ActionListener
             } catch (SQLException se) {
                 System.out.println(se);
                 JOptionPane.showMessageDialog(null, "SQL Error" + se);
+            }
+        }
+        else if(ae.getSource()==b1) {
+
+            if (((t3.getText()).equals(""))) {
+                JOptionPane.showMessageDialog(this, "Please enter user id or name !", "Warning!!!", JOptionPane.ERROR_MESSAGE);
+            } else if (((t2.getText()).equals("")) || ((t3.getText()).equals(""))) {
+                JOptionPane.showMessageDialog(this, "* Detail are Missing !", "Warning!!!", JOptionPane.ERROR_MESSAGE);
+            } else {
+                try {
+                    con = db.getConnection();
+                    System.out.println("Connected to database.");
+                    Statement stmt = con.createStatement();
+                    String str1 = "delete from user_manager where u_id='" + t1.getText() + "' or username='" + t2.getText() + "' ";
+                    stmt.executeUpdate(str1);
+                    JOptionPane.showMessageDialog(null, "Record is deleted");
+                    t1.setText("");
+                    t2.setText("");
+                    t3.setText("");
+                    con.close();
+                } catch (SQLException se) {
+                    System.out.println(se);
+                    JOptionPane.showMessageDialog(null, "SQL Error:" + se);
+                }
             }
         }
     }
