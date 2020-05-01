@@ -1,8 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.Properties;
 
 import com.mysql.jdbc.Connection;
@@ -21,7 +23,7 @@ public class Booking extends JFrame implements ActionListener
     SqlDateModel datemodel;
     DBS db = null;
     Connection con;
-
+    PreparedStatement pst;
     Booking(){
         jf = new JFrame();
         jf.setLayout(null);
@@ -107,8 +109,36 @@ public class Booking extends JFrame implements ActionListener
     }
 
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btn1) {
 
+
+            if (((t2.getText()).equals("")) || ((t3.getText()).equals(""))) {
+                JOptionPane.showMessageDialog(this, "* Detail are Missing !", "Warning!!!", JOptionPane.WARNING_MESSAGE);
+            } else {
+                try {
+                    con = (Connection) db.getConnection();
+                    System.out.println("Connected to database.");
+                    pst = con.prepareStatement("insert into room_booking (fullname,address,mobile,email,description,bdate,room)values(?,?,?,?,)");
+                    pst.setString(1, t2.getText());
+                    pst.setString(2, t3.getText());
+                    pst.setDate(6, (Date) datePicker.getModel().getValue());
+                    pst.setString(7, cmb1.getSelectedItem().toString());
+
+                    pst.executeUpdate();
+
+                    pst = con.prepareStatement("update room_availbility set status='booked' where room=? and adate=?");
+                    pst.setDate(2, (Date) datePicker.getModel().getValue());
+                    pst.setString(1, cmb1.getSelectedItem().toString());
+                    pst.executeUpdate();
+                    con.close();
+                } catch (SQLException se) {
+                    System.out.println(se);
+                    JOptionPane.showMessageDialog(null, "SQL Error:" + se);
+                }
+            }
+        }
     }
+
     public static void main(String args[])
     {
 
