@@ -10,7 +10,7 @@ public class Managerlogin extends JFrame implements ActionListener
 
     }
     public static void main(String args[]){
-        new ManagerLogin();
+        new Managerlogin();
     }
 
 }
