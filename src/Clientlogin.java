@@ -45,8 +45,9 @@ public class Clientlogin extends JFrame implements ActionListener
         btn2 = new JButton("Home");
         btn2.setBounds(350, 350, 100, 35);
         jf.add(btn2);
+        btn2.addActionListener(this);
 
-        jf.setTitle("Client login");
+        jf.setTitle("Client Login");
         jf.setLocation(20, 20);
         jf.setSize(800, 600);
         jf.setResizable(false);
@@ -54,6 +55,10 @@ public class Clientlogin extends JFrame implements ActionListener
         jf.setVisible(true);
     }
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==btn2)
+        {
+            new Home();
+        }
 
     }
     public static void main(String args[]){
