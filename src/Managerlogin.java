@@ -9,6 +9,7 @@ public class Managerlogin extends JFrame implements ActionListener
     JLabel lbl1,lbl2,lbl3;
     JTextField txt1;
     JPasswordField txt2;
+    JButton btn1,btn2;
     Managerlogin()
     {
         jf = new JFrame();
@@ -16,7 +17,7 @@ public class Managerlogin extends JFrame implements ActionListener
 
         lbl1 = new JLabel("Welcome to Manager portal");
         lbl1.setFont(new Font("Times New Roman", Font.BOLD, 30));
-        lbl1.setBounds(200, 100, 400, 40);
+        lbl1.setBounds(180, 140, 400, 40);
         jf.add(lbl1);
 
         lbl2 = new JLabel("User Name : ");
@@ -37,11 +38,20 @@ public class Managerlogin extends JFrame implements ActionListener
         txt2.setToolTipText("Enter password");
         jf.add(txt2);
 
+        btn1 = new JButton("Login");
+        btn1.setBounds(200, 350, 100, 35);
+        jf.add(btn1);
+
+
+        btn2 = new JButton("Home");
+        btn2.setBounds(350, 350, 100, 35);
+        jf.add(btn2);
+
         jf.setTitle("Manager Login");
         jf.setLocation(20, 20);
         jf.setSize(800, 600);
         jf.setResizable(false);
-        jf.getContentPane().setBackground(Color.white);
+        jf.getContentPane().setBackground(Color.orange);
         jf.setVisible(true);
     }
     public void actionPerformed(ActionEvent e) {
