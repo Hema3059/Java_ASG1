@@ -42,10 +42,10 @@ public class Managerlogin extends JFrame implements ActionListener
         btn1.setBounds(200, 350, 100, 35);
         jf.add(btn1);
 
-
         btn2 = new JButton("Home");
         btn2.setBounds(350, 350, 100, 35);
         jf.add(btn2);
+        btn2.addActionListener(this);
 
         jf.setTitle("Manager Login");
         jf.setLocation(20, 20);
@@ -55,7 +55,10 @@ public class Managerlogin extends JFrame implements ActionListener
         jf.setVisible(true);
     }
     public void actionPerformed(ActionEvent e) {
-
+        if(e.getSource()==btn2)
+        {
+            new Home();
+        }
     }
     public static void main(String args[]){
         new Managerlogin();
