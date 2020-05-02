@@ -7,9 +7,20 @@ public class Home extends JFrame implements ActionListener
 {
     JFrame jf;
     JButton btn1,btn2,btn3;
+    JLabel lbl1,lbl2;
     Home(){
         jf = new JFrame();
         jf.setLayout(null);
+
+        lbl1 = new JLabel("Welcome to Room Booking portal");
+        lbl1.setFont(new Font("Times New Roman", Font.BOLD, 30));
+        lbl1.setBounds(180, 140, 450, 40);
+        jf.add(lbl1);
+
+        lbl2 = new JLabel("Choose your login");
+        lbl2.setFont(new Font("Times New Roman", Font.CENTER_BASELINE, 20));
+        lbl2.setBounds(300, 230, 450, 40);
+        jf.add(lbl2);
 
         btn1 = new JButton("Manager  Login");
         btn1.setBounds(150,340,130,35);
@@ -25,7 +36,7 @@ public class Home extends JFrame implements ActionListener
 
         btn3 = new JButton("Exit");
         btn3.setBounds(490,340,130,35);
-        btn3.setToolTipText("click here to exit the application");
+        btn3.setToolTipText("click here for client Login");
         jf.add(btn3);
         btn3.addActionListener(this);
 
@@ -34,7 +45,7 @@ public class Home extends JFrame implements ActionListener
         jf.setLocation(20, 20);
         jf.setSize(800, 600);
         jf.setResizable(false);
-        jf.getContentPane().setBackground(Color.white);
+        jf.getContentPane().setBackground(Color.orange);
         jf.setVisible(true);
 
     }
