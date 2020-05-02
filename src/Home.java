@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 public class Home extends JFrame implements ActionListener
 {
     JFrame jf;
-    JButton btn1,btn2;
+    JButton btn1,btn2,btn3;
     Home(){
         jf = new JFrame();
         jf.setLayout(null);
@@ -22,6 +22,13 @@ public class Home extends JFrame implements ActionListener
         btn2.setToolTipText("click here for client Login");
         jf.add(btn2);
         btn2.addActionListener(this);
+
+        btn3 = new JButton("Exit");
+        btn3.setBounds(490,340,130,35);
+        btn3.setToolTipText("click here to exit the application");
+        jf.add(btn3);
+        btn3.addActionListener(this);
+
 
         jf.setTitle("Home");
         jf.setLocation(20, 20);
@@ -43,6 +50,11 @@ public class Home extends JFrame implements ActionListener
         {
             new Clientlogin();
         }
+        else if(e.getSource()==btn3)
+        {
+            System.exit(0);
+        }
+
     }
     public static void main(String args[]){
         new Home();
