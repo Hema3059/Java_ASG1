@@ -12,7 +12,7 @@ public class ManageRooms extends JFrame implements ActionListener
 {
     JFrame jf;
     JLabel lbl1,lbl2,lbl3,lbl4,lbl5,lbl6;
-    JTextField txt1,txt2,txt3,txt4,txt5;
+    JTextField txt1,txt2,txt3,txt4;
     JButton btn1,btn2;
     DefaultTableModel model = new DefaultTableModel();
     JTable tabGrid = new JTable(model);
@@ -25,6 +25,13 @@ public class ManageRooms extends JFrame implements ActionListener
     ManageRooms(){
         jf = new JFrame();
         jf.setLayout(null);
+        db = new DBS();
+
+        lbl5=new JLabel("Manage Rooms Here");
+        lbl5.setFont(new Font("Times New Roman",Font.BOLD,25));
+        lbl5.setBounds(150,50,300,40);
+        lbl5.setForeground(Color.black);
+        jf.add(lbl5);
 
         lbl1 = new JLabel("Room id*");
         lbl1.setBounds(150,120,170,25);
@@ -62,29 +69,21 @@ public class ManageRooms extends JFrame implements ActionListener
         txt4.setToolTipText("Availbility");
         jf.add(txt4);
 
-        lbl5 = new JLabel("Date*");
-        lbl5.setBounds(150,280,170,25);
-        jf.add(lbl5);
-
-        txt5=new JTextField(20);
-        txt5.setBounds(320,280,250,25);
-        txt5.setToolTipText("Date");
-        jf.add(txt5);
 
         lbl6 = new JLabel("Type*");
-        lbl6.setBounds(150,320,170,25);
+        lbl6.setBounds(150,280,170,25);
         jf.add(lbl6);
         db = new DBS();
         cmb=new JComboBox();
-        cmb.setBounds(320,320,250,25);
+        cmb.setBounds(320,280,250,25);
         cmb.setToolTipText("Enter Type");
         cmb.addItem("select");
         try {
             con=db.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("Select roomtype from typemaster");
+            ResultSet rs = st.executeQuery("Select roomtype_name from room_type");
             while (rs.next()) {
-                String mrd = rs.getString("roomtype");
+                String mrd = rs.getString("roomtype_name");
                 cmb.addItem(mrd);
             }
             rs.close();
@@ -99,13 +98,23 @@ public class ManageRooms extends JFrame implements ActionListener
         jf.add(cmb);
 
         btn1 = new JButton("View");
-        btn1.setBounds(280,380,110,35);
+        btn1.setBounds(280,330,110,35);
         btn1.setToolTipText("click to view all room details");
         btn1.addActionListener(this);
         jf.add(btn1);
 
+        scrlPane.setBounds(120,400,900,340);
+        jf.add(scrlPane);
+        tabGrid.setFont(new Font ("Times New Roman",0,15));
+
+        model.addColumn("Room_id");
+        model.addColumn("Room_name");
+        model.addColumn("Room_size");
+        model.addColumn("Room_status");
+        model.addColumn("Room_type");
+
         btn2 = new JButton("Delete");
-        btn2.setBounds(450,380,110,35);
+        btn2.setBounds(450,330,110,35);
         btn2.setToolTipText("click to delete room details");
         btn2.addActionListener(this);
         jf.add(btn2);
@@ -130,9 +139,9 @@ public class ManageRooms extends JFrame implements ActionListener
                 con = db.getConnection();
                 System.out.println("Connected to database.");
                 stm = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                rst = stm.executeQuery("SELECT * from room_manager");
+                rst = stm.executeQuery("SELECT * from rooms");
                 while (rst.next()) {
-                    model.insertRow(r++, new Object[]{rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), rst.getString(6), rst.getString(7)});
+                    model.insertRow(r++, new Object[]{rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5)});
                 }
                 con.close();
             } catch (SQLException se) {
@@ -147,14 +156,14 @@ public class ManageRooms extends JFrame implements ActionListener
             try {
                 con = db.getConnection();
                 System.out.println("Connected to database.");
-                String str1 = "delete from room_manager where room_id=" + txt1.getText() + " or rtitle='" + txt2.getText() + "' ";
+                stm=con.createStatement();
+                String str1 = "delete from rooms where room_id="+txt1.getText()+" or room_name='"+txt2.getText()+"' ";
                 stm.executeUpdate(str1);
                 JOptionPane.showMessageDialog(null, "Record is deleted");
                 txt1.setText("");
                 txt2.setText("");
                 txt3.setText("");
                 txt4.setText("");
-                txt5.setText("");
                 cmb.setSelectedItem("select");
                 con.close();
             } catch (SQLException se) {
