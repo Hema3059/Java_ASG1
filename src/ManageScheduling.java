@@ -14,6 +14,7 @@ public class ManageScheduling extends JFrame implements ActionListener
     JFrame jf;
     JLabel lbl1,lbl2,lbl3;
     JComboBox cmb1,cmb2;
+    JButton btn1;
     DBS db = null;
     Connection con;
     JDatePickerImpl datePk;
@@ -24,7 +25,7 @@ public class ManageScheduling extends JFrame implements ActionListener
         jf.setLayout(null);
         db = new DBS();
 
-        lbl1=new JLabel("Scheduling Room");
+        lbl1=new JLabel("Room Scheduling");
         lbl1.setFont(new Font("Times New Roman",Font.BOLD,25));
         lbl1.setBounds(150,50,300,40);
         lbl1.setForeground(Color.black);
@@ -84,7 +85,13 @@ public class ManageScheduling extends JFrame implements ActionListener
         cmb2.addItem("TermTime");
         jf.add(cmb2);
 
-        jf.setTitle("Add Schedule Type");
+        btn1 = new JButton("Schedule");
+        btn1.setBounds(150,250,110,35);
+        btn1.setToolTipText("click to schedule");
+        jf.add(btn1);
+        btn1.addActionListener(this);
+
+        jf.setTitle("Add Schedule");
         jf.setLocation(20,20);
         jf.setResizable(false);
         jf.getContentPane().setBackground(Color.white);
