@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class AddRoomType extends JFrame implements ActionListener
 {
     JFrame jf;
-    JLabel lbl1;
+    JLabel lbl1,lbl2;
     JTextField txt1;
     JButton btn1;
     Connection con;
@@ -19,6 +19,12 @@ public class AddRoomType extends JFrame implements ActionListener
     {
         jf=new JFrame();
         jf.setLayout(null);
+        db = new DBS();
+        lbl2=new JLabel("Add New Room Type ");
+        lbl2.setFont(new Font("Times New Roman",Font.BOLD,25));
+        lbl2.setBounds(150,50,300,40);
+        lbl2.setForeground(Color.black);
+        jf.add(lbl2);
 
         lbl1 = new JLabel("Enter Room Type Name*");
         lbl1.setBounds(150,160,170,25);
@@ -32,6 +38,7 @@ public class AddRoomType extends JFrame implements ActionListener
         btn1 = new JButton("Save");
         btn1.setBounds(150,230,110,35);
         jf.add(btn1);
+        btn1.addActionListener(this);
 
         jf.setTitle("Add Room Type");
         jf.setLocation(20,20);
@@ -48,9 +55,11 @@ public class AddRoomType extends JFrame implements ActionListener
             try {
                 con = db.getConnection();
                 System.out.println("Connected to database.");
-                pst = con.prepareStatement("insert into typemaster (roomtype)values(?)");
+                pst = con.prepareStatement("insert into room_type (roomtype_name)values(?)");
                 pst.setString(1, txt1.getText());
                 pst.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Room type added Successfully!!","Note!!!",JOptionPane.INFORMATION_MESSAGE);
+                txt1.setText("");
             }
             catch (SQLException e) {
                 e.printStackTrace();
