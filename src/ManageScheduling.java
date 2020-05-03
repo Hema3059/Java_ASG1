@@ -12,8 +12,8 @@ import java.util.Properties;
 public class ManageScheduling extends JFrame implements ActionListener
 {
     JFrame jf;
-    JLabel lbl1,lbl2;
-    JComboBox cmb1;
+    JLabel lbl1,lbl2,lbl3;
+    JComboBox cmb1,cmb2;
     DBS db = null;
     Connection con;
     JDatePickerImpl datePk;
@@ -70,6 +70,19 @@ public class ManageScheduling extends JFrame implements ActionListener
         datemdl.setSelected(true);
         datePk.setBounds(320,160,200,25);datePk.setToolTipText("Select Date");
         jf.add(datePk);
+
+        lbl3= new JLabel("Enter Day Type*");
+        lbl3.setBounds(150,200,210,25);
+        jf.add(lbl3);
+
+        cmb2= new JComboBox();
+        cmb2.setBounds(320,200,200,25);
+        cmb2.setToolTipText("Choose Type");
+        cmb2.addItem("Select Day Type");
+        cmb2.addItem("Holiday");
+        cmb2.addItem("Weekend");
+        cmb2.addItem("TermTime");
+        jf.add(cmb2);
 
         jf.setTitle("Add Schedule Type");
         jf.setLocation(20,20);
