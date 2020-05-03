@@ -3,6 +3,7 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +19,11 @@ public class ManageScheduling extends JFrame implements ActionListener
     DBS db = null;
     Connection con;
     PreparedStatement pst;
+    Statement stm;
+    ResultSet rst;
+    DefaultTableModel model = new DefaultTableModel();
+    JTable tabGrid = new JTable(model);
+    JScrollPane scrlPane = new JScrollPane(tabGrid);
     JDatePickerImpl datePk;
     SqlDateModel datemdl;
     ManageScheduling()
@@ -93,10 +99,19 @@ public class ManageScheduling extends JFrame implements ActionListener
         btn1.addActionListener(this);
 
         btn2= new JButton("All");
-        btn2.setBounds(450,320,110,35);
+        btn2.setBounds(300,250,110,35);
         btn2.setToolTipText("click to view all  details");
         jf.add(btn2);
         btn2.addActionListener(this);
+
+        scrlPane.setBounds(80,320,900,300);
+        jf.add(scrlPane);
+        tabGrid.setFont(new Font ("Times New Roman",0,15));
+
+        model.addColumn("S_ID");
+        model.addColumn("Room");
+        model.addColumn("S_Date");
+        model.addColumn("D_Type");
 
         jf.setTitle("Add Schedule");
         jf.setLocation(20,20);
@@ -127,7 +142,7 @@ public class ManageScheduling extends JFrame implements ActionListener
                     pst=con.prepareStatement("insert into room_scheduling (room,s_date,d_type) values(?,?,?)");
                     pst.setString(1,cmb1.getSelectedItem().toString());
                     pst.setDate(2, (java.sql.Date) datePk.getModel().getValue());
-                    pst.setString(3,cmb1.getSelectedItem().toString());
+                    pst.setString(3,cmb2.getSelectedItem().toString());
                     pst.executeUpdate();
                     JOptionPane.showMessageDialog(this,"Room Scheduled Successfully!!","Note!!!",JOptionPane.INFORMATION_MESSAGE);
                     con.close();
@@ -142,6 +157,37 @@ public class ManageScheduling extends JFrame implements ActionListener
                     System.out.println(e);
                     JOptionPane.showMessageDialog(null,"Error:"+e);
                 }
+            }
+        }
+        else if(ae.getSource()==btn2)
+        {//list
+            if (model.getRowCount() > 0) {
+                for (int i = model.getRowCount() - 1; i > -1; i--) {
+                    model.removeRow(i);
+                }
+            }
+            int r = 0;
+            try
+            {
+                con=db.getConnection();
+                System.out.println("Connected to database.");
+                stm = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+                rst = stm.executeQuery("select * from room_scheduling" );
+                while(rst.next())
+                {
+                    model.insertRow(r++, new Object[]{rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5) });
+                }
+                con.close();
+            }
+            catch(SQLException se)
+            {
+                System.out.println(se);
+                JOptionPane.showMessageDialog(null,"SQL Error:"+se);
+            }
+            catch(Exception e)
+            {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null,"Error:"+e);
             }
         }
 
