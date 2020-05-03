@@ -1,8 +1,13 @@
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.SqlDateModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.Properties;
 
 public class ManageScheduling extends JFrame implements ActionListener
 {
@@ -11,6 +16,8 @@ public class ManageScheduling extends JFrame implements ActionListener
     JComboBox cmb1;
     DBS db = null;
     Connection con;
+    JDatePickerImpl datePk;
+    SqlDateModel datemdl;
     ManageScheduling()
     {
         jf = new JFrame();
@@ -48,6 +55,21 @@ public class ManageScheduling extends JFrame implements ActionListener
         {
             e.printStackTrace();
         }
+
+        lbl2= new JLabel("Select Date *");
+        lbl2.setBounds(150,160,170,25);
+        jf.add(lbl2);
+
+        datemdl = new SqlDateModel();
+        Properties p = new Properties();
+        p.put("text.today", "today");
+        p.put("text.month", "month");
+        p.put("text.year", "year");
+        JDatePanelImpl datePanel = new JDatePanelImpl(datemdl, p);
+        datePk = new JDatePickerImpl(datePanel, new DatelblFormatter());
+        datemdl.setSelected(true);
+        datePk.setBounds(320,160,200,25);datePk.setToolTipText("Select Date");
+        jf.add(datePk);
 
         jf.setTitle("Add Schedule Type");
         jf.setLocation(20,20);
