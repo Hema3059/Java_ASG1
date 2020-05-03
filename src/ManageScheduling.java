@@ -2,16 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class ManageScheduling extends JFrame implements ActionListener
 {
     JFrame jf;
     JLabel lbl1,lbl2;
     JComboBox cmb1;
+    DBS db = null;
+    Connection con;
     ManageScheduling()
     {
         jf = new JFrame();
         jf.setLayout(null);
+        db = new DBS();
 
         lbl1=new JLabel("Scheduling Room");
         lbl1.setFont(new Font("Times New Roman",Font.BOLD,25));
@@ -29,6 +33,21 @@ public class ManageScheduling extends JFrame implements ActionListener
         jf.add(cmb1);
         cmb1.addItem("Select Room");
 
+        try {
+            con=db.getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("Select room_name from rooms");
+            while (rs.next()) {
+                String round = rs.getString("room_name");
+                cmb1.addItem(round);
+            }
+            rs.close();
+            con.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
 
         jf.setTitle("Add Schedule Type");
         jf.setLocation(20,20);
