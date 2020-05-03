@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Clientlogin extends JFrame implements ActionListener
 {
@@ -10,6 +13,8 @@ public class Clientlogin extends JFrame implements ActionListener
     JTextField txt1;
     JPasswordField txt2;
     JButton btn1,btn2;
+    DBS db = null;
+    Connection con;
     Clientlogin()
     {
         jf = new JFrame();
@@ -41,6 +46,7 @@ public class Clientlogin extends JFrame implements ActionListener
         btn1 = new JButton("Login");
         btn1.setBounds(200, 350, 100, 35);
         jf.add(btn1);
+        btn1.addActionListener(this);
 
         btn2 = new JButton("Home");
         btn2.setBounds(350, 350, 100, 35);
@@ -58,6 +64,27 @@ public class Clientlogin extends JFrame implements ActionListener
         if(e.getSource()==btn2)
         {
             new Home();
+        }
+        else if (e.getSource() == btn1) {
+            try {
+                String s = txt1.getText();
+                System.out.println(s);
+                String s1 = new String(txt2.getPassword());
+                System.out.println(s1);
+                con = db.getConnection();
+                System.out.println("connected to the database");
+                Statement stm = con.createStatement();
+                ResultSet rst = stm.executeQuery("select * from Users  where user_type='clerk' and user_name='" + s + "' and user_pass='" + s1 + "'");
+                if (rst.next()) {
+                    new Menu();
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception ae) {
+                JOptionPane.showMessageDialog(null, " Sorry !!! You are not valid user ...!!!", "WARNING", JOptionPane.ERROR_MESSAGE);
+                txt1.setText("");
+                txt2.setText("");
+            }
         }
 
     }
