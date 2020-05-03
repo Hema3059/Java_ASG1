@@ -1,7 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import javax.swing.ImageIcon;
+
 
 public class DBS {
     public Connection getConnection(){
@@ -14,9 +14,6 @@ public class DBS {
         catch(Exception e){System.out.println(e);}
         return con;
     }
-    public ImageIcon getImage(String str)
-    {
-        return new ImageIcon(getClass().getClassLoader().getResource(str));
-    }
+
 
 }
