@@ -8,6 +8,9 @@ public class List extends JFrame
     JFrame jf = new JFrame();
     JLabel lbl1;
     DBS db = null;
+    Connection con;
+    Statement stm;
+    ResultSet rst;
     DefaultTableModel model = new DefaultTableModel();
     JTable tabGrid = new JTable(model);
     JScrollPane scrlPane = new JScrollPane(tabGrid);
@@ -32,6 +35,30 @@ public class List extends JFrame
         model.addColumn("Date");
         model.addColumn("Type");
         model.addColumn("Status");
+
+        int r = 0;
+        try
+        {
+            con=db.getConnection();
+            System.out.println("Connected to database.");
+            stm = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            rst = stm.executeQuery("SELECT `s_id`, `room`, `s_date`, `d_type` , `status`  FROM `room_scheduling`" );
+            while(rst.next())
+            {
+                model.insertRow(r++, new Object[]{rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5)});
+            }
+            con.close();
+        }
+        catch(SQLException se)
+        {
+            System.out.println(se);
+            JOptionPane.showMessageDialog(null,"SQL Error:"+se);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null,"Error:"+e);
+        }
 
         jf.setTitle("List of Available Room");
         jf.setLocation(20,20);
