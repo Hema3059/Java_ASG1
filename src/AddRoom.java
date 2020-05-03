@@ -18,6 +18,13 @@ public class AddRoom extends JFrame implements ActionListener
     {
         jf = new JFrame();
         jf.setLayout(null);
+        db = new DBS();
+
+        lbl5=new JLabel("Add Rooms Here");
+        lbl5.setFont(new Font("Times New Roman",Font.BOLD,25));
+        lbl5.setBounds(150,50,300,40);
+        lbl5.setForeground(Color.black);
+        jf.add(lbl5);
 
         lbl1 = new JLabel("Room name*");
         lbl1.setBounds(150,160,170,25);
@@ -46,43 +53,34 @@ public class AddRoom extends JFrame implements ActionListener
         txt3.setToolTipText("Availbility");
         jf.add(txt3);
 
-        lbl4 = new JLabel("Date*");
+        lbl4 = new JLabel("Type*");
         lbl4.setBounds(150,280,170,25);
         jf.add(lbl4);
 
-        txt4=new JTextField(20);
-        txt4.setBounds(320,280,250,25);
-        txt4.setToolTipText("Date");
-        jf.add(txt4);
-
-        lbl5 = new JLabel("Type*");
-        //l3.setFont(f);
-        lbl5.setBounds(150,360,170,25);
-        jf.add(lbl5);
-
         cmb=new JComboBox();
-        cmb.setBounds(320,360,250,25);
+        cmb.setBounds(320,280,250,25);
         cmb.setToolTipText("Enter Type");
         cmb.addItem("select");
         try {
             con=db.getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("Select roomtype from typemaster");
-            while (rs.next()) {
-                String mrd = rs.getString("roomtype");
+            Statement stm = con.createStatement();
+            ResultSet rst = stm.executeQuery("Select roomtype_name from room_type");
+            while (rst.next()) {
+                String mrd = rst.getString("roomtype_name");
                 cmb.addItem(mrd);
             }
 
-            rs.close();
+            rst.close();
             con.close();
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
+        jf.add(cmb);
 
         btn1 = new JButton("Save");
-        btn1.setBounds(150,390,110,35);
+        btn1.setBounds(150,340,110,35);
         btn1.setToolTipText("click to save room details");
         jf.add(btn1);
         btn1.addActionListener(this);
@@ -101,13 +99,16 @@ public class AddRoom extends JFrame implements ActionListener
             try {
                 con = db.getConnection();
                 System.out.println("Connected to database.");
-                pst = con.prepareStatement("insert into room_manager (rtitle,room_size,type,availability,adate)values(?,?,?,?,?)");
+                pst = con.prepareStatement("insert into rooms (room_name,room_capacity,room_status,room_type)values(?,?,?,?)");
                 pst.setString(1, txt1.getText());
                 pst.setString(2, txt2.getText());
-                pst.setString(3, cmb.getSelectedItem().toString());
-                pst.setString(4, txt3.getText());
-                pst.setString(5, txt4.getText());
+                pst.setString(3, txt3.getText());
+                pst.setString(4, cmb.getSelectedItem().toString());
                 pst.executeUpdate();
+                JOptionPane.showMessageDialog(this,"Room added Successfully!!","Note!!!",JOptionPane.INFORMATION_MESSAGE);
+                txt1.setText("");
+                txt2.setText("");
+                txt3.setText("");
                 con.close();
             } catch (SQLException se) {
                 System.out.println(se);
