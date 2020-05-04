@@ -122,9 +122,9 @@ public class ManageRooms extends JFrame implements ActionListener
         jf.setTitle("Room Management Page");
         jf.setLocation(20,20);
         jf.setResizable(false);
-        jf.getContentPane().setBackground(Color.white);
+        jf.getContentPane().setBackground(Color.lightGray);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        jf.setBounds(0,0,screenSize.width, screenSize.height-50);
+        jf.setBounds(10,10,screenSize.width-200, screenSize.height-50);
         jf.setVisible(true);
     }
     public void actionPerformed(ActionEvent ae) {
