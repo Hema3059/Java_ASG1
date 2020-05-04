@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +10,9 @@ public class ManageBooking extends JFrame implements ActionListener
     JLabel lbl1,lbl2,lbl3;
     JTextField txt1,txt2,txt3;
     JButton btn1,btn2;
+    DefaultTableModel model = new DefaultTableModel();
+    JTable tabGrid = new JTable(model);
+    JScrollPane scrlPane = new JScrollPane(tabGrid);
     ManageBooking()
     {
         jf = new JFrame();
@@ -47,6 +51,17 @@ public class ManageBooking extends JFrame implements ActionListener
         jf.add(btn1);
         btn1.addActionListener(this);
 
+        scrlPane.setBounds(80,330,900,400);
+        jf.add(scrlPane);
+        tabGrid.setFont(new Font ("Times New Roman",0,15));
+
+        model.addColumn("B_ID");
+        model.addColumn("C_NAME");
+        model.addColumn("MOBILE");
+        model.addColumn("ROOM");
+        model.addColumn("BOOKED_DATE");
+        model.addColumn("T_DATE");
+
         btn2 = new JButton("Delete");
         btn2.setBounds(450,250,110,35);
         btn2.setToolTipText("click to Delete MR details");
@@ -62,8 +77,16 @@ public class ManageBooking extends JFrame implements ActionListener
         jf.setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent actionEvent) {
+    public void actionPerformed(ActionEvent ae)
+    {
+        if(ae.getSource()==btn1) {
+            if (((txt1.getText()).equals(""))) {
+                JOptionPane.showMessageDialog(this, "Please enter booking id  !", "Warning!!!", JOptionPane.WARNING_MESSAGE);
+            }
+            else {
 
+            }
+        }
     }
     public static void main(String args[])
     {
