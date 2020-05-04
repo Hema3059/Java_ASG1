@@ -1,16 +1,17 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Date;
-import java.util.Properties;
-
-import com.mysql.jdbc.Connection;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class Booking extends JFrame implements ActionListener
 {
@@ -49,7 +50,8 @@ public class Booking extends JFrame implements ActionListener
         jf.add(l3);
 
         t3=new JTextField(20);
-        t3.setBounds(320,200,250,25);t3.setToolTipText("Enter Phone Number");
+        t3.setBounds(320,200,250,25);
+        t3.setToolTipText("Enter Phone Number");
         jf.add(t3);
 
         l4 = new JLabel("Select Date*");
@@ -64,28 +66,27 @@ public class Booking extends JFrame implements ActionListener
         JDatePanelImpl datePanel = new JDatePanelImpl(datemodel, p);
         datePicker = new JDatePickerImpl(datePanel, new DatelblFormatter());
         datemodel.setSelected(true);
-        //t5=new JTextField(20);
         datePicker.setBounds(320,240,250,25);datePicker.setToolTipText("Date");
         jf.add(datePicker);
 
         l5 = new JLabel("Room*");
-        l5.setBounds(150,320,170,25);
+        l5.setBounds(150,280,170,25);
         jf.add(l5);
 
         cmb1=new JComboBox();
-        cmb1.setBounds(320,400,250,25);
+        cmb1.setBounds(320,280,250,25);
         cmb1.setToolTipText("Select Room");
         cmb1.addItem("Select Room");
+        jf.add(cmb1);
         try {
-            con= (Connection) db.getConnection();
+            con=db.getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("Select ** from ** where availability=1");
+            ResultSet rs = st.executeQuery("Select room_name from rooms where room_status='available'");
             while (rs.next()) {
-                String mrd = rs.getString("**");
+                String mrd = rs.getString("room_name");
                 cmb1.addItem(mrd);
             }
             rs.close();
-
             con.close();
         }
         catch(Exception e)
@@ -108,32 +109,54 @@ public class Booking extends JFrame implements ActionListener
         jf.setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btn1) {
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == btn1)
+        {
+            if(((t2.getText()).equals(""))||((t3.getText()).equals("")))
+            {
+                JOptionPane.showMessageDialog(this,"* Detail are Missing !","Warning!!!",JOptionPane.WARNING_MESSAGE);
+            }
 
-
-            if (((t2.getText()).equals("")) || ((t3.getText()).equals(""))) {
-                JOptionPane.showMessageDialog(this, "* Detail are Missing !", "Warning!!!", JOptionPane.WARNING_MESSAGE);
-            } else {
-                try {
-                    con = (Connection) db.getConnection();
+            else
+            {
+                try
+                {
+                    con=db.getConnection();
                     System.out.println("Connected to database.");
-                    pst = con.prepareStatement("insert into room_booking (fullname,address,mobile,email,description,bdate,room)values(?,?,?,?,)");
-                    pst.setString(1, t2.getText());
-                    pst.setString(2, t3.getText());
-                    pst.setDate(6, (Date) datePicker.getModel().getValue());
-                    pst.setString(7, cmb1.getSelectedItem().toString());
-
-                    pst.executeUpdate();
-
-                    pst = con.prepareStatement("update room_availbility set status='booked' where room=? and adate=?");
-                    pst.setDate(2, (Date) datePicker.getModel().getValue());
+                    pst=con.prepareStatement("select * from  room_scheduling where  status='available' and  room=? and s_date=?");
+                    pst.setDate(2,(Date)datePicker.getModel().getValue());
                     pst.setString(1, cmb1.getSelectedItem().toString());
-                    pst.executeUpdate();
-                    con.close();
-                } catch (SQLException se) {
+                    ResultSet rsnew = pst.executeQuery();
+                    if(rsnew.next()){
+                        pst=con.prepareStatement("insert into room_booking (c_name,c_phone,b_date,room)values(?,?,?,?)");
+                        pst.setString(1,t2.getText());
+                        pst.setString(2,t3.getText());
+                        pst.setDate(3,(Date)datePicker.getModel().getValue());
+                        pst.setString(4, cmb1.getSelectedItem().toString());
+                        JOptionPane.showMessageDialog(this,"Booking Successfully!!","Note!!!",JOptionPane.INFORMATION_MESSAGE);
+
+                        pst.executeUpdate();
+
+                        pst=con.prepareStatement("update room_scheduling set status='booked' where room=? and s_date=?");
+                        pst.setDate(2,(Date)datePicker.getModel().getValue());
+                        pst.setString(1, cmb1.getSelectedItem().toString());
+                        pst.executeUpdate();
+                        con.close();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(this,"* Room is not available on that date"," Warning ", JOptionPane.WARNING_MESSAGE);
+
+                    }
+                }
+                catch(SQLException se)
+                {
                     System.out.println(se);
-                    JOptionPane.showMessageDialog(null, "SQL Error:" + se);
+                    JOptionPane.showMessageDialog(null,"SQL Error:"+se);
+                }
+                catch(Exception e)
+                {
+                    System.out.println(e);
+                    JOptionPane.showMessageDialog(null,"Error:"+e);
                 }
             }
         }
@@ -141,6 +164,6 @@ public class Booking extends JFrame implements ActionListener
 
     public static void main(String args[])
     {
-
+        new Booking();
     }
 }
