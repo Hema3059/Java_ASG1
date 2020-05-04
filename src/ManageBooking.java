@@ -130,10 +130,7 @@ public class ManageBooking extends JFrame implements ActionListener {
                     stm.executeUpdate(str1);
 
 
-                    pst = con.prepareStatement("update room_scheduling set status='available' where room=? and s_date=?");
-                    // pst.setDate(2,(Date)datePicker.getModel().getValue());
-                    // pst.setString(1, c1.getSelectedItem().toString());
-                    pst.executeUpdate();
+
                     JOptionPane.showMessageDialog(null, "Record is deleted");
                     txt1.setText("");
                     txt2.setText("");
