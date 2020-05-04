@@ -3,6 +3,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class ManageBooking extends JFrame implements ActionListener
 {
@@ -13,10 +14,15 @@ public class ManageBooking extends JFrame implements ActionListener
     DefaultTableModel model = new DefaultTableModel();
     JTable tabGrid = new JTable(model);
     JScrollPane scrlPane = new JScrollPane(tabGrid);
+    DBS db = null;
+    Connection con;
+    Statement stm;
+    ResultSet rst;
     ManageBooking()
     {
         jf = new JFrame();
         jf.setLayout(null);
+        db = new DBS();
 
         lbl1= new JLabel("Booking id *");
         lbl1.setBounds(150,120,130,25);
@@ -80,11 +86,35 @@ public class ManageBooking extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent ae)
     {
         if(ae.getSource()==btn1) {
-            if (((txt1.getText()).equals(""))) {
-                JOptionPane.showMessageDialog(this, "Please enter booking id  !", "Warning!!!", JOptionPane.WARNING_MESSAGE);
-            }
-            else {
-
+            {//list
+                if (model.getRowCount() > 0) {
+                    for (int i = model.getRowCount() - 1; i > -1; i--) {
+                        model.removeRow(i);
+                    }
+                }
+                int r = 0;
+                try
+                {
+                    con=db.getConnection();
+                    System.out.println("Connected to database.");
+                    stm = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+                    rst = stm.executeQuery("SELECT * from room_booking" );
+                    while(rst.next())
+                    {
+                        model.insertRow(r++, new Object[]{rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5),rst.getString(6) });
+                    }
+                    con.close();
+                }
+                catch(SQLException se)
+                {
+                    System.out.println(se);
+                    JOptionPane.showMessageDialog(null,"SQL Error"+se);
+                }
+                catch(Exception e)
+                {
+                    System.out.println(e);
+                    JOptionPane.showMessageDialog(null,"Error:"+e);
+                }
             }
         }
     }
