@@ -22,7 +22,7 @@ public class AddRoom extends JFrame implements ActionListener
 
         lbl5=new JLabel("Add Rooms Here");
         lbl5.setFont(new Font("Times New Roman",Font.BOLD,25));
-        lbl5.setBounds(150,50,300,40);
+        lbl5.setBounds(320,50,300,40);
         lbl5.setForeground(Color.black);
         jf.add(lbl5);
 
@@ -88,10 +88,11 @@ public class AddRoom extends JFrame implements ActionListener
         jf.setTitle("Add New Room");
         jf.setLocation(20,20);
         jf.setResizable(false);
-        jf.getContentPane().setBackground(Color.WHITE);
+        jf.getContentPane().setBackground(Color.lightGray);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        jf.setBounds(0,0,screenSize.width, screenSize.height-50);
+        //jf.setBounds(0,0,screenSize.width, screenSize.height-50);
         jf.setVisible(true);
+        jf.setBounds(100,100, 800, 500);
     }
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn1) {
