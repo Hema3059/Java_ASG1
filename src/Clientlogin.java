@@ -6,21 +6,21 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Clientlogin extends JFrame implements ActionListener
-{
+public class Clientlogin extends JFrame implements ActionListener {
     JFrame jf;
-    JLabel lbl1,lbl2,lbl3;
+    JLabel lbl1, lbl2, lbl3;
     JTextField txt1;
     JPasswordField txt2;
-    JButton btn1,btn2;
+    JButton btn1, btn2;
     DBS db = null;
     Connection con;
-    Clientlogin()
-    {
+
+    Clientlogin() {
+        db = new DBS();
         jf = new JFrame();
         jf.setLayout(null);
 
-        lbl1 = new JLabel("Welcome to Client portal");
+        lbl1 = new JLabel("Welcome to Clerk login");
         lbl1.setFont(new Font("Times New Roman", Font.BOLD, 30));
         lbl1.setBounds(180, 140, 400, 40);
         jf.add(lbl1);
@@ -57,15 +57,20 @@ public class Clientlogin extends JFrame implements ActionListener
         jf.setLocation(20, 20);
         jf.setSize(800, 600);
         jf.setResizable(false);
-        jf.getContentPane().setBackground(Color.orange);
+        jf.getContentPane().setBackground(Color.lightGray);
         jf.setVisible(true);
+        jf.setBounds(100, 100, 800, 500);
     }
+
+    public static void main(String args[]) {
+        new Clientlogin();
+    }
+
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==btn2)
-        {
+        if (e.getSource() == btn2) {
             new Home();
-        }
-        else if (e.getSource() == btn1) {
+            jf.dispose();
+        } else if (e.getSource() == btn1) {
             try {
                 String s = txt1.getText();
                 System.out.println(s);
@@ -76,20 +81,19 @@ public class Clientlogin extends JFrame implements ActionListener
                 Statement stm = con.createStatement();
                 ResultSet rst = stm.executeQuery("select * from Users  where user_type='clerk' and user_name='" + s + "' and user_pass='" + s1 + "'");
                 if (rst.next()) {
-                    new Menu();
+                    new ClerkMenu();
+                    jf.dispose();
                 } else {
                     throw new Exception();
                 }
             } catch (Exception ae) {
+                ae.printStackTrace();
                 JOptionPane.showMessageDialog(null, " Sorry !!! You are not valid user ...!!!", "WARNING", JOptionPane.ERROR_MESSAGE);
                 txt1.setText("");
                 txt2.setText("");
             }
         }
 
-    }
-    public static void main(String args[]){
-        new Clientlogin();
     }
 
 }
