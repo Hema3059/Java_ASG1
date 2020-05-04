@@ -13,18 +13,18 @@ public class Menu extends JFrame implements ActionListener {
         jf = new JFrame();
         jf.setLayout(null);
 
-        lbl1 = new JLabel("Menu");
+        lbl1 = new JLabel("Manager Menu");
         lbl1.setFont(new Font("Times New Roman", Font.BOLD, 30));
-        lbl1.setBounds(150, 0, 200, 40);
+        lbl1.setBounds(130, 0, 200, 40);
         jf.add(lbl1);
 
         btn0 = new JButton("Add New Room Type");
-        btn0.setBounds(150, 50, 160, 35);
+        btn0.setBounds(150, 70, 160, 35);
         btn0.addActionListener(this);
         jf.add(btn0);
 
         btn1 = new JButton("Add New Room");
-        btn1.setBounds(150, 100, 160, 35);
+        btn1.setBounds(150, 110, 160, 35);
         btn1.addActionListener(this);
         jf.add(btn1);
 
@@ -34,23 +34,23 @@ public class Menu extends JFrame implements ActionListener {
         jf.add(btn2);
 
         btn3 = new JButton("Manage rooms");
-        btn3.setBounds(150, 200, 160, 35);
+        btn3.setBounds(150, 190, 160, 35);
         btn3.addActionListener(this);
         jf.add(btn3);
 
         btn4 = new JButton("Schedule the room");
-        btn4.setBounds(150, 250, 160, 35);
+        btn4.setBounds(150, 230, 160, 35);
         btn4.addActionListener(this);
         jf.add(btn4);
 
         btn5 = new JButton("View status");
-        btn5.setBounds(150, 300, 160, 35);
+        btn5.setBounds(150, 270, 160, 35);
         btn5.addActionListener(this);
         jf.add(btn5);
 
 
         btnlogout = new JButton("Logout");
-        btnlogout.setBounds(150, 350, 160, 35);
+        btnlogout.setBounds(150, 310, 160, 35);
         btnlogout.addActionListener(this);
         jf.add(btnlogout);
 
@@ -60,7 +60,7 @@ public class Menu extends JFrame implements ActionListener {
         jf.setSize(900, 700);
         jf.setResizable(false);
 
-        jf.getContentPane().setBackground(Color.WHITE);
+        jf.getContentPane().setBackground(Color.lightGray);
         jf.setVisible(true);
         jf.setBounds(100,100, 500, 500);
     }
