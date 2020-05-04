@@ -6,24 +6,24 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Managerlogin extends JFrame implements ActionListener
-{
+public class Managerlogin extends JFrame implements ActionListener {
     JFrame jf;
-    JLabel lbl1,lbl2,lbl3;
+    JLabel lbl1, lbl2, lbl3;
     JTextField txt1;
     JPasswordField txt2;
-    JButton btn1,btn2;
+    JButton btn1, btn2;
     DBS db = null;
     Connection con;
-    Managerlogin()
-    {
+
+    Managerlogin() {
+
         jf = new JFrame();
         jf.setLayout(null);
         db = new DBS();
 
         lbl1 = new JLabel("Welcome to Manager portal");
         lbl1.setFont(new Font("Times New Roman", Font.BOLD, 30));
-        lbl1.setBounds(180, 140, 400, 40);
+        lbl1.setBounds(200, 120, 400, 40);
         jf.add(lbl1);
 
         lbl2 = new JLabel("User Name : ");
@@ -58,20 +58,23 @@ public class Managerlogin extends JFrame implements ActionListener
         jf.setLocation(20, 20);
         jf.setSize(800, 600);
         jf.setResizable(false);
-        jf.getContentPane().setBackground(Color.orange);
+        jf.getContentPane().setBackground(Color.lightGray);
         jf.setVisible(true);
+        jf.setBounds(100, 100, 800, 500);
     }
+
+    public static void main(String args[]) {
+        new Managerlogin();
+    }
+
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==btn2)
-        {
+        if (e.getSource() == btn2) {
             new Home();
-        }
-        else if (e.getSource() == btn1) {
+            jf.dispose();
+        } else if (e.getSource() == btn1) {
             try {
                 String s = txt1.getText();
-                System.out.println(s);
                 String s1 = new String(txt2.getPassword());
-                System.out.println(s1);
                 con = db.getConnection();
                 System.out.println("connected to the database");
                 Statement stmt = con.createStatement();
@@ -79,6 +82,7 @@ public class Managerlogin extends JFrame implements ActionListener
 
                 if (rs.next()) {
                     new Menu();
+                    jf.dispose();
                 } else {
                     throw new Exception();
                 }
@@ -88,9 +92,6 @@ public class Managerlogin extends JFrame implements ActionListener
                 txt2.setText("");
             }
         }
-    }
-    public static void main(String args[]){
-        new Managerlogin();
     }
 
 }
