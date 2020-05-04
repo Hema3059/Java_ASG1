@@ -1,3 +1,4 @@
+import com.github.lgooddatepicker.components.DateTimePicker;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.SqlDateModel;
@@ -12,7 +13,7 @@ import java.util.Properties;
 
 public class Booking extends JFrame implements ActionListener {
     JFrame jf;
-    JLabel l1, l2, l3, l4, l5;
+    JLabel l1, l2, l3, l4, l5, lblEndDate;
     JComboBox cmb1;
     JTextField t2, t3;
 
@@ -22,6 +23,7 @@ public class Booking extends JFrame implements ActionListener {
     DBS db = null;
     Connection con;
     PreparedStatement pst;
+    DateTimePicker dateTimePicker, dateTimePickerEndDate;
 
     Booking() {
         jf = new JFrame();
@@ -31,7 +33,7 @@ public class Booking extends JFrame implements ActionListener {
         l1 = new JLabel("New Booking");
         l1.setFont(new Font("Times New Roman", Font.BOLD, 25));
         l1.setBounds(250, 50, 300, 40);
-        l1.setForeground(Color.blue);
+        l1.setForeground(Color.black);
         jf.add(l1);
 
         l2 = new JLabel("Name*");
@@ -52,29 +54,29 @@ public class Booking extends JFrame implements ActionListener {
         t3.setToolTipText("Enter Phone Number");
         jf.add(t3);
 
-        l4 = new JLabel("Select Date*");
+        l4 = new JLabel("Select Start Date *");
         l4.setBounds(150, 240, 170, 25);
         jf.add(l4);
 
+        dateTimePicker = new DateTimePicker();
+        dateTimePicker.setBounds(320, 240, 260, 25);
+        jf.add(dateTimePicker);
 
-        datemodel = new SqlDateModel();
-        Properties p = new Properties();
-        p.put("text.today", "today");
-        p.put("text.month", "month");
-        p.put("text.year", "year");
-        JDatePanelImpl datePanel = new JDatePanelImpl(datemodel, p);
-        datePicker = new JDatePickerImpl(datePanel, new DatelblFormatter());
-        datemodel.setSelected(true);
-        datePicker.setBounds(320, 240, 250, 25);
-        datePicker.setToolTipText("Date");
-        jf.add(datePicker);
+        lblEndDate = new JLabel("Select End Date *");
+        lblEndDate.setBounds(150, 280, 170, 25);
+        jf.add(lblEndDate);
+
+        dateTimePickerEndDate = new DateTimePicker();
+        dateTimePickerEndDate.setBounds(320, 280, 260, 25);
+        jf.add(dateTimePickerEndDate);
+
 
         l5 = new JLabel("Room*");
-        l5.setBounds(150, 280, 170, 25);
+        l5.setBounds(150, 320, 170, 25);
         jf.add(l5);
 
         cmb1 = new JComboBox();
-        cmb1.setBounds(320, 280, 250, 25);
+        cmb1.setBounds(320, 320, 250, 25);
         cmb1.setToolTipText("Select Room");
         cmb1.addItem("Select Room");
         jf.add(cmb1);
@@ -93,7 +95,7 @@ public class Booking extends JFrame implements ActionListener {
         }
 
         btn1 = new JButton("Save");
-        btn1.setBounds(200, 350, 110, 35);
+        btn1.setBounds(200, 360, 110, 35);
         btn1.setToolTipText("click to save Booking details");
         jf.add(btn1);
         btn1.addActionListener(this);
@@ -101,11 +103,11 @@ public class Booking extends JFrame implements ActionListener {
         jf.setTitle("BOOKING");
         jf.setLocation(20, 20);
         jf.setResizable(false);
-        jf.getContentPane().setBackground(Color.white);
+        jf.getContentPane().setBackground(Color.lightGray);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         //jf.setBounds(0,0,screenSize.width, screenSize.height-50);
         jf.setVisible(true);
-        jf.setBounds(100, 100, 800, 500);
+        jf.setBounds(100, 100, 800, 550);
     }
 
     public static void main(String args[]) {
@@ -121,21 +123,23 @@ public class Booking extends JFrame implements ActionListener {
                     con = db.getConnection();
                     System.out.println("Connected to database.");
                     pst = con.prepareStatement("select * from  room_scheduling where  status='available' and  room=? and s_date=?");
-                    pst.setDate(2, (Date) datePicker.getModel().getValue());
+                    pst.setTimestamp(2, Timestamp.valueOf(dateTimePicker.getDateTimePermissive()));
                     pst.setString(1, cmb1.getSelectedItem().toString());
                     ResultSet rsnew = pst.executeQuery();
                     if (rsnew.next()) {
-                        pst = con.prepareStatement("insert into room_booking (c_name,c_phone,b_date,room)values(?,?,?,?)");
+                        pst = con.prepareStatement("insert into room_booking (c_name,c_phone,b_date,e_date, room)values(?,?,?,?, ?)");
                         pst.setString(1, t2.getText());
                         pst.setString(2, t3.getText());
-                        pst.setDate(3, (Date) datePicker.getModel().getValue());
-                        pst.setString(4, cmb1.getSelectedItem().toString());
-                        JOptionPane.showMessageDialog(this, "Booking Successfully!!", "Note!!!", JOptionPane.INFORMATION_MESSAGE);
+                        pst.setTimestamp(3, Timestamp.valueOf(dateTimePicker.getDateTimePermissive()));
+                        pst.setTimestamp(4, Timestamp.valueOf(dateTimePickerEndDate.getDateTimePermissive()));
+                        pst.setString(5, cmb1.getSelectedItem().toString());
+
 
                         pst.executeUpdate();
+                        JOptionPane.showMessageDialog(this, "Booking Successfully!!", "Note!!!", JOptionPane.INFORMATION_MESSAGE);
 
                         pst = con.prepareStatement("update room_scheduling set status='booked' where room=? and s_date=?");
-                        pst.setDate(2, (Date) datePicker.getModel().getValue());
+                        pst.setTimestamp(2,  Timestamp.valueOf(dateTimePicker.getDateTimePermissive()));
                         pst.setString(1, cmb1.getSelectedItem().toString());
                         pst.executeUpdate();
                         con.close();
